@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>COSMIC TOOLS</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- KEY GATE -->
+<div id="gate" class="screen active">
+  <div class="gate-box">
+    <div class="logo">⚡ COSMIC TOOLS</div>
+    <p class="tagline">Premium access only. Enter your key.</p>
+    <input id="gate-key" type="text" placeholder="COSMIC-XXXX-XXXX-XXXX-XXXX" autocomplete="off"/>
+    <input id="gate-uid" type="text" placeholder="Your User ID (any unique string)" autocomplete="off"/>
+    <button id="gate-btn" onclick="redeemKey()">UNLOCK</button>
+    <div id="gate-msg" class="gate-msg"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="screen">
+  <header>
+    <span class="logo-sm">⚡ COSMIC</span>
+    <span id="hdr-uid" class="uid-badge"></span>
+    <button class="logout-btn" onclick="logout()">LOGOUT</button>
+  </header>
+
+  <nav class="tab-bar">
+    <button class="tab active" data-tab="sms">💣 SMS BOMBER</button>
+    <button class="tab" data-tab="fb">📢 FB REPORTER</button>
+    <button class="tab" data-tab="mlbb">🎮 MLBB CHECKER</button>
+  </nav>
+
+  <!-- SMS BOMBER -->
+  <section id="tab-sms" class="tab-content active">
+    <h2>SMS Bomber</h2>
+    <label>Target Number</label>
+    <input id="sms-num" type="text" placeholder="09xxxxxxxxx"/>
+    <label>Batches (1–50)</label>
+    <input id="sms-amt" type="number" min="1" max="50" value="5"/>
+    <label>Sender Name <span class="opt">(optional)</span></label>
+    <input id="sms-name" type="text" placeholder="User"/>
+    <label>Message <span class="opt">(optional)</span></label>
+    <input id="sms-msg" type="text" placeholder="Test Message"/>
+    <label>Services</label>
+    <div class="checkbox-grid" id="svc-grid"></div>
+    <button class="fire-btn" onclick="submitSMS()">🚀 LAUNCH</button>
+    <div id="sms-status" class="status-box"></div>
+  </section>
+
+  <!-- FB REPORTER -->
+  <section id="tab-fb" class="tab-content">
+    <h2>FB Mass Reporter</h2>
+    <label>Target URL</label>
+    <input id="fb-url" type="text" placeholder="https://facebook.com/..."/>
+    <label>Report Count (1–100)</label>
+    <input id="fb-cnt" type="number" min="1" max="100" value="20"/>
+    <label>Reason</label>
+    <select id="fb-reason">
+      <option value="spam">Spam</option>
+      <option value="hate_speech">Hate Speech</option>
+      <option value="violence">Violence</option>
+      <option value="nudity">Nudity</option>
+      <option value="harassment">Harassment</option>
+      <option value="suicide">Suicide</option>
+      <option value="terrorism">Terrorism</option>
+      <option value="false_news">False News</option>
+      <option value="intellectual_property">Intellectual Property</option>
+      <option value="drugs">Drugs</option>
+      <option value="selling_weapons">Selling Weapons</option>
+    </select>
+    <button class="fire-btn" onclick="submitFB()">🔫 REPORT</button>
+    <div id="fb-status" class="status-box"></div>
+  </section>
+
+  <!-- MLBB CHECKER -->
+  <section id="tab-mlbb" class="tab-content">
+    <h2>MLBB Device / Ban Checker</h2>
+    <label>User ID</label>
+    <input id="mlbb-uid" type="text" placeholder="MLBB User ID"/>
+    <label>Zone ID</label>
+    <input id="mlbb-zone" type="text" placeholder="Zone ID (e.g. 2206)"/>
+    <button class="fire-btn" onclick="checkMLBB()">🔍 CHECK</button>
+    <div id="mlbb-result" class="status-box"></div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

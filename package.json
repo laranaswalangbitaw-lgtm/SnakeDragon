@@ -1,0 +1,8 @@
+{
+  "name": "cosmic-tools",
+  "version": "1.0.0",
+  "description": "COSMIC TOOLS — Netlify serverless backend",
+  "dependencies": {
+    "@netlify/blobs": "^7.3.0"
+  }
+}
