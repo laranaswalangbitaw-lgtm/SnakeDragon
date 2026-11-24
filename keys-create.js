@@ -1,6 +1,6 @@
 // netlify/functions/keys-create.js
-// POST /api/keys-create  { uses, admin_token }
-// Called by the Telegram admin bot to generate keys.
+// POST /api/keys-create  { uses }
+// Auth: X-Admin-Token header (never in request body)
 
 import { keysGet, keysSet } from "./_store.js";
 import { randomUUID } from "crypto";
@@ -9,16 +9,19 @@ export default async (req) => {
   if (req.method !== "POST")
     return json({ ok: false, error: "Method not allowed" }, 405);
 
+  const adminToken = process.env.ADMIN_TOKEN;
+  if (!adminToken) return json({ ok: false, error: "Server misconfigured" }, 500);
+
+  // Auth via header only — token never travels in the body
+  if (req.headers.get("X-Admin-Token") !== adminToken)
+    return json({ ok: false, error: "Forbidden" }, 403);
+
   let body;
   try { body = await req.json(); } catch { body = {}; }
 
-  const adminToken = process.env.ADMIN_TOKEN || "changeme";
-  if (body.admin_token !== adminToken)
-    return json({ ok: false, error: "Forbidden" }, 403);
-
   const uses = Math.max(1, parseInt(body.uses) || 10);
-  const parts = [0,0,0,0].map(() => randomUUID().replace(/-/g,"").slice(0,4).toUpperCase());
-  const key   = "COSMIC-" + parts.join("-");
+  const rand = () => randomUUID().replace(/-/g, "").slice(0, 4).toUpperCase();
+  const key  = `COSMIC-${rand()}-${rand()}-${rand()}-${rand()}`;
 
   const keys = await keysGet();
   keys[key] = {
@@ -38,7 +41,10 @@ export default async (req) => {
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
   });
 }
 

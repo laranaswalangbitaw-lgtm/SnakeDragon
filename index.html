@@ -17,6 +17,7 @@
     <input id="gate-uid" type="text" placeholder="Your User ID (any unique string)" autocomplete="off"/>
     <button id="gate-btn" onclick="redeemKey()">UNLOCK</button>
     <div id="gate-msg" class="gate-msg"></div>
+    <p class="demo-hint">Demo mode: use key <code>COSMIC-DEMO-DEMO-DEMO-DEMO</code></p>
   </div>
 </div>
 
@@ -25,18 +26,23 @@
   <header>
     <span class="logo-sm">⚡ COSMIC</span>
     <span id="hdr-uid" class="uid-badge"></span>
-    <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    <div class="hdr-right">
+      <span class="demo-badge">DEMO</span>
+      <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    </div>
   </header>
 
   <nav class="tab-bar">
     <button class="tab active" data-tab="sms">💣 SMS BOMBER</button>
     <button class="tab" data-tab="fb">📢 FB REPORTER</button>
     <button class="tab" data-tab="mlbb">🎮 MLBB CHECKER</button>
+    <button class="tab" data-tab="keymgr">🔑 KEY MGR</button>
   </nav>
 
   <!-- SMS BOMBER -->
   <section id="tab-sms" class="tab-content active">
     <h2>SMS Bomber</h2>
+    <div class="sim-banner">⚡ Simulation Mode — no real SMS sent</div>
     <label>Target Number</label>
     <input id="sms-num" type="text" placeholder="09xxxxxxxxx"/>
     <label>Batches (1–50)</label>
@@ -47,13 +53,14 @@
     <input id="sms-msg" type="text" placeholder="Test Message"/>
     <label>Services</label>
     <div class="checkbox-grid" id="svc-grid"></div>
-    <button class="fire-btn" onclick="submitSMS()">🚀 LAUNCH</button>
+    <button class="fire-btn" id="sms-btn" onclick="submitSMS()">🚀 LAUNCH</button>
     <div id="sms-status" class="status-box"></div>
   </section>
 
   <!-- FB REPORTER -->
   <section id="tab-fb" class="tab-content">
     <h2>FB Mass Reporter</h2>
+    <div class="sim-banner">⚡ Simulation Mode — no real reports sent</div>
     <label>Target URL</label>
     <input id="fb-url" type="text" placeholder="https://facebook.com/..."/>
     <label>Report Count (1–100)</label>
@@ -72,19 +79,54 @@
       <option value="drugs">Drugs</option>
       <option value="selling_weapons">Selling Weapons</option>
     </select>
-    <button class="fire-btn" onclick="submitFB()">🔫 REPORT</button>
+    <button class="fire-btn" id="fb-btn" onclick="submitFB()">🔫 REPORT</button>
     <div id="fb-status" class="status-box"></div>
   </section>
 
   <!-- MLBB CHECKER -->
   <section id="tab-mlbb" class="tab-content">
     <h2>MLBB Device / Ban Checker</h2>
+    <div class="sim-banner">⚡ Simulation Mode — demo data shown</div>
     <label>User ID</label>
     <input id="mlbb-uid" type="text" placeholder="MLBB User ID"/>
     <label>Zone ID</label>
     <input id="mlbb-zone" type="text" placeholder="Zone ID (e.g. 2206)"/>
     <button class="fire-btn" onclick="checkMLBB()">🔍 CHECK</button>
     <div id="mlbb-result" class="status-box"></div>
+  </section>
+
+  <!-- KEY MANAGER (Demo Admin) -->
+  <section id="tab-keymgr" class="tab-content">
+    <h2>Key Manager</h2>
+    <div class="sim-banner">⚡ Simulation Mode — demo data, no real storage</div>
+
+    <div class="keymgr-actions">
+      <div class="keymgr-card">
+        <h3>Generate Key</h3>
+        <label>Max Uses</label>
+        <select id="km-uses">
+          <option value="1">x1 use</option>
+          <option value="5">x5 uses</option>
+          <option value="10" selected>x10 uses</option>
+          <option value="50">x50 uses</option>
+          <option value="99999">♾ Unlimited</option>
+        </select>
+        <button class="fire-btn" onclick="demoGenKey()">🔑 Generate</button>
+        <div id="km-gen-out" class="status-box"></div>
+      </div>
+
+      <div class="keymgr-card">
+        <h3>Revoke Key</h3>
+        <label>Key String</label>
+        <input id="km-revoke-key" type="text" placeholder="COSMIC-XXXX-XXXX-XXXX-XXXX"/>
+        <button class="fire-btn danger-btn" onclick="demoRevokeKey()">🗑 Revoke</button>
+        <div id="km-rev-out" class="status-box"></div>
+      </div>
+    </div>
+
+    <h3 class="list-hdr">Active Keys (Demo)</h3>
+    <div id="km-list" class="key-list"></div>
+    <div class="km-stats" id="km-stats"></div>
   </section>
 </div>
 

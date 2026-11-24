@@ -1,6 +1,6 @@
-// _store.js — thin wrapper around Netlify Blobs
-// Netlify Blobs docs: https://docs.netlify.com/blobs/overview/
+// _store.js — Netlify Blobs wrapper
 // Store name "cosmic" is auto-created on first write.
+// No secrets in this file — all auth handled by callers via env vars.
 
 import { getStore } from "@netlify/blobs";
 
@@ -22,7 +22,6 @@ export async function keysSet(data) {
 }
 
 export async function queueGet(name) {
-  // name: "sms_queue" | "fb_queue"
   try {
     const raw = await store().get(`${name}.json`, { type: "text" });
     return raw ? JSON.parse(raw) : { jobs: [] };
@@ -36,7 +35,6 @@ export async function queueSet(name, data) {
 }
 
 export async function statusGet(name) {
-  // name: "sms_status"
   try {
     const raw = await store().get(`${name}.json`, { type: "text" });
     return raw ? JSON.parse(raw) : { status: "idle" };
